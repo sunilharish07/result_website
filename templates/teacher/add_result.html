@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Upload Marks{% endblock %}
+{% block content %}
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">🎓 Teacher Portal</div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('teacher_dashboard') }}" class="nav-item">📊 Dashboard</a>
+      <a href="{{ url_for('manage_students') }}" class="nav-item">👥 Students</a>
+      <a href="{{ url_for('manage_results') }}" class="nav-item">📝 Results</a>
+      <a href="{{ url_for('add_student') }}" class="nav-item">➕ Add Student</a>
+      <a href="{{ url_for('add_result') }}" class="nav-item active">📤 Upload Marks</a>
+    </nav>
+    <a href="{{ url_for('teacher_logout') }}" class="sidebar-logout">🚪 Logout</a>
+  </aside>
+  <main class="main-content">
+    <div class="page-header">
+      <h1>📤 Upload Marks</h1>
+      <a href="{{ url_for('manage_results') }}" class="btn btn-outline">← Back</a>
+    </div>
+    <div class="form-card">
+      <form method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Select Student</label>
+            <select name="student_id" required>
+              <option value="">-- Select Student --</option>
+              {% for s in students %}
+              <option value="{{ s.id }}">{{ s.name }} ({{ s.roll_number }})</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <select name="subject" required>
+              <option value="">-- Select Subject --</option>
+              {% for sub in subjects %}
+              <option value="{{ sub }}">{{ sub }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Marks Obtained</label>
+            <input type="number" name="marks" min="0" max="100" placeholder="e.g. 85" required/>
+          </div>
+          <div class="form-group">
+            <label>Maximum Marks</label>
+            <input type="number" name="max_marks" value="100" min="1" required/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Semester</label>
+            <select name="semester" required>
+              <option value="">Select Semester</option>
+              {% for i in range(1, 9) %}
+              <option value="{{ i }}">Semester {{ i }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Exam Year</label>
+            <input type="text" name="exam_year" placeholder="e.g. 2024" required/>
+          </div>
+        </div>
+        <div class="grade-info">
+          <p>📌 Grade Scale: O(90+) | A+(80) | A(70) | B+(60) | B(50) | C(40) | F(below 40)</p>
+        </div>
+        <button type="submit" class="btn btn-primary">📤 Upload Result</button>
+      </form>
+    </div>
+  </main>
+</div>
+{% endblock %}

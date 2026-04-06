@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block title %}My Results — {{ student.name }}{% endblock %}
+{% block content %}
+<div class="student-page">
+
+  <!-- Header -->
+  <div class="student-header">
+    <div class="student-header-left">
+      <h1>📊 My Result Card</h1>
+      <p>Academic performance report</p>
+    </div>
+    <a href="{{ url_for('student_logout') }}" class="btn btn-outline">🚪 Logout</a>
+  </div>
+
+  <!-- Student Info -->
+  <div class="student-info-card">
+    <div class="info-item">
+      <span class="info-label">Name</span>
+      <span class="info-value">{{ student.name }}</span>
+    </div>
+    <div class="info-item">
+      <span class="info-label">Roll Number</span>
+      <span class="info-value">{{ student.roll_number }}</span>
+    </div>
+    <div class="info-item">
+      <span class="info-label">Department</span>
+      <span class="info-value">{{ student.department }}</span>
+    </div>
+    <div class="info-item">
+      <span class="info-label">Semester</span>
+      <span class="info-value">{{ student.semester }}</span>
+    </div>
+  </div>
+
+  {% if results %}
+
+  <!-- Summary -->
+  <div class="result-summary">
+    <div class="summary-item">
+      <h3>{{ total_marks }} / {{ max_total }}</h3>
+      <p>Total Marks</p>
+    </div>
+    <div class="summary-item">
+      <h3>{{ percentage }}%</h3>
+      <p>Percentage</p>
+    </div>
+    <div class="summary-item">
+      <h3 class="{% if overall == 'PASS' %}pass-text{% else %}fail-text{% endif %}">
+        {{ overall }}
+      </h3>
+      <p>Overall Result</p>
+    </div>
+  </div>
+
+  <!-- Result Table -->
+  <div class="section-card">
+    <h2 class="section-title">📚 Subject-wise Marks</h2>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Max Marks</th>
+            <th>Percentage</th>
+            <th>Grade</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in results %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td><strong>{{ r.subject }}</strong></td>
+            <td>{{ r.marks }}</td>
+            <td>{{ r.max_marks }}</td>
+            <td>{{ ((r.marks / r.max_marks) * 100) | round(1) }}%</td>
+            <td><span class="grade-badge">{{ r.grade }}</span></td>
+            <td>
+              {% if r.marks >= 40 %}
+                <span class="status-pass">✅ Pass</span>
+              {% else %}
+                <span class="status-fail">❌ Fail</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td colspan="2"><strong>Total</strong></td>
+            <td><strong>{{ total_marks }}</strong></td>
+            <td><strong>{{ max_total }}</strong></td>
+            <td><strong>{{ percentage }}%</strong></td>
+            <td colspan="1"></td>
+            <td>
+              <strong class="{% if overall == 'PASS' %}pass-text{% else %}fail-text{% endif %}">
+                {{ overall }}
+              </strong>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <!-- Grade Scale -->
+  <div class="grade-scale-card">
+    <h3>📌 Grade Scale</h3>
+    <div class="grade-scale">
+      <span class="gs-item"><strong>O</strong> — 90 & above</span>
+      <span class="gs-item"><strong>A+</strong> — 80–89</span>
+      <span class="gs-item"><strong>A</strong> — 70–79</span>
+      <span class="gs-item"><strong>B+</strong> — 60–69</span>
+      <span class="gs-item"><strong>B</strong> — 50–59</span>
+      <span class="gs-item"><strong>C</strong> — 40–49</span>
+      <span class="gs-item fail-text"><strong>F</strong> — Below 40</span>
+    </div>
+  </div>
+
+  {% else %}
+  <div class="empty-state">
+    <p>📭 No results uploaded yet. Please check back later.</p>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

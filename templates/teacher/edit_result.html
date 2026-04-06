@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Edit Result{% endblock %}
+{% block content %}
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">🎓 Teacher Portal</div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('teacher_dashboard') }}" class="nav-item">📊 Dashboard</a>
+      <a href="{{ url_for('manage_students') }}" class="nav-item">👥 Students</a>
+      <a href="{{ url_for('manage_results') }}" class="nav-item active">📝 Results</a>
+      <a href="{{ url_for('add_student') }}" class="nav-item">➕ Add Student</a>
+      <a href="{{ url_for('add_result') }}" class="nav-item">📤 Upload Marks</a>
+    </nav>
+    <a href="{{ url_for('teacher_logout') }}" class="sidebar-logout">🚪 Logout</a>
+  </aside>
+  <main class="main-content">
+    <div class="page-header">
+      <h1>✏️ Edit Result</h1>
+      <a href="{{ url_for('manage_results') }}" class="btn btn-outline">← Back</a>
+    </div>
+    <div class="form-card">
+      <form method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Select Student</label>
+            <select name="student_id" required>
+              {% for s in students %}
+              <option value="{{ s.id }}" {% if s.id == result.student_id %}selected{% endif %}>
+                {{ s.name }} ({{ s.roll_number }})
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <select name="subject" required>
+              {% for sub in subjects %}
+              <option value="{{ sub }}" {% if sub == result.subject %}selected{% endif %}>{{ sub }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Marks Obtained</label>
+            <input type="number" name="marks" value="{{ result.marks }}" min="0" max="100" required/>
+          </div>
+          <div class="form-group">
+            <label>Maximum Marks</label>
+            <input type="number" name="max_marks" value="{{ result.max_marks }}" required/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Semester</label>
+            <select name="semester" required>
+              {% for i in range(1, 9) %}
+              <option value="{{ i }}" {% if result.semester == i %}selected{% endif %}>Semester {{ i }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Exam Year</label>
+            <input type="text" name="exam_year" value="{{ result.exam_year }}" required/>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+      </form>
+    </div>
+  </main>
+</div>
+{% endblock %}

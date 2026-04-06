@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Manage Students{% endblock %}
+{% block content %}
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">🎓 Teacher Portal</div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('teacher_dashboard') }}" class="nav-item">📊 Dashboard</a>
+      <a href="{{ url_for('manage_students') }}" class="nav-item active">👥 Students</a>
+      <a href="{{ url_for('manage_results') }}" class="nav-item">📝 Results</a>
+      <a href="{{ url_for('add_student') }}" class="nav-item">➕ Add Student</a>
+      <a href="{{ url_for('add_result') }}" class="nav-item">📤 Upload Marks</a>
+    </nav>
+    <a href="{{ url_for('teacher_logout') }}" class="sidebar-logout">🚪 Logout</a>
+  </aside>
+  <main class="main-content">
+    <div class="page-header">
+      <h1>👥 Manage Students</h1>
+      <a href="{{ url_for('add_student') }}" class="btn btn-primary">➕ Add Student</a>
+    </div>
+    <div class="section-card">
+      {% if students %}
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Roll Number</th>
+              <th>Department</th>
+              <th>Semester</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in students %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td><strong>{{ s.name }}</strong></td>
+              <td><span class="badge">{{ s.roll_number }}</span></td>
+              <td>{{ s.department }}</td>
+              <td>Sem {{ s.semester }}</td>
+              <td class="action-btns">
+                <a href="{{ url_for('edit_student', sid=s.id) }}" class="btn btn-sm btn-warning">✏️ Edit</a>
+                <a href="{{ url_for('delete_student', sid=s.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this student?')">🗑️ Delete</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <p>📭 No students added yet. <a href="{{ url_for('add_student') }}">Add one now →</a></p>
+      </div>
+      {% endif %}
+    </div>
+  </main>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Add Student{% endblock %}
+{% block content %}
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">🎓 Teacher Portal</div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('teacher_dashboard') }}" class="nav-item">📊 Dashboard</a>
+      <a href="{{ url_for('manage_students') }}" class="nav-item">👥 Students</a>
+      <a href="{{ url_for('manage_results') }}" class="nav-item">📝 Results</a>
+      <a href="{{ url_for('add_student') }}" class="nav-item active">➕ Add Student</a>
+      <a href="{{ url_for('add_result') }}" class="nav-item">📤 Upload Marks</a>
+    </nav>
+    <a href="{{ url_for('teacher_logout') }}" class="sidebar-logout">🚪 Logout</a>
+  </aside>
+  <main class="main-content">
+    <div class="page-header">
+      <h1>➕ Add New Student</h1>
+      <a href="{{ url_for('manage_students') }}" class="btn btn-outline">← Back</a>
+    </div>
+    <div class="form-card">
+      <form method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Student Full Name</label>
+            <input type="text" name="name" placeholder="e.g. Ravi Kumar" required/>
+          </div>
+          <div class="form-group">
+            <label>Roll Number</label>
+            <input type="text" name="roll_number" placeholder="e.g. STU101" required/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Department</label>
+            <input type="text" name="department" placeholder="e.g. Science" required/>
+          </div>
+          <div class="form-group">
+            <label>Semester</label>
+            <select name="semester" required>
+              <option value="">Select Semester</option>
+              {% for i in range(1, 9) %}
+              <option value="{{ i }}">Semester {{ i }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">➕ Add Student</button>
+      </form>
+    </div>
+  </main>
+</div>
+{% endblock %}

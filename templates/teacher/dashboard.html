@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}Teacher Dashboard{% endblock %}
+{% block content %}
+<div class="dashboard-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">🎓 Teacher Portal</div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('teacher_dashboard') }}" class="nav-item active">📊 Dashboard</a>
+      <a href="{{ url_for('manage_students') }}" class="nav-item">👥 Students</a>
+      <a href="{{ url_for('manage_results') }}" class="nav-item">📝 Results</a>
+      <a href="{{ url_for('add_student') }}" class="nav-item">➕ Add Student</a>
+      <a href="{{ url_for('add_result') }}" class="nav-item">📤 Upload Marks</a>
+    </nav>
+    <a href="{{ url_for('teacher_logout') }}" class="sidebar-logout">🚪 Logout</a>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1>Dashboard</h1>
+      <span class="welcome-text">Welcome, {{ session['teacher_name'] }} 👋</span>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <h3>{{ total_students }}</h3>
+          <p>Total Students</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <div class="stat-info">
+          <h3>{{ total_results }}</h3>
+          <p>Total Results</p>
+        </div>
+      </div>
+      <div class="stat-card pass-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-info">
+          <h3>{{ pass_pct }}%</h3>
+          <p>Pass Percentage</p>
+        </div>
+      </div>
+      <div class="stat-card fail-card">
+        <div class="stat-icon">❌</div>
+        <div class="stat-info">
+          <h3>{{ fail_pct }}%</h3>
+          <p>Fail Percentage</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subject Stats -->
+    {% if subject_stats %}
+    <div class="section-card">
+      <h2 class="section-title">📚 Subject-wise Performance</h2>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Avg Marks</th>
+              <th>Pass %</th>
+              <th>Fail %</th>
+              <th>Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in subject_stats %}
+            <tr>
+              <td><strong>{{ s.subject }}</strong></td>
+              <td>{{ s.avg }}</td>
+              <td class="pass-text">{{ s.pass_pct }}%</td>
+              <td class="fail-text">{{ s.fail_pct }}%</td>
+              <td>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: {{ s.pass_pct }}%"></div>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <p>📭 No results uploaded yet. <a href="{{ url_for('add_result') }}">Upload marks now →</a></p>
+    </div>
+    {% endif %}
+
+  </main>
+</div>
+{% endblock %}

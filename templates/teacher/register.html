@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Teacher Register{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-left">
+    <div class="auth-brand">
+      <span class="auth-icon">🎓</span>
+      <h1>Join as Teacher</h1>
+      <p>Create your account to get started</p>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-box">
+      <h2>Create Account</h2>
+      <p class="auth-sub">Register to manage the student portal</p>
+      <form method="POST">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" name="name" placeholder="Enter your full name" required/>
+        </div>
+        <div class="form-group">
+          <label>Register Number</label>
+          <input type="text" name="register_number" placeholder="e.g. TCH001" required/>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Create a password" required/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Register →</button>
+      </form>
+      <p class="auth-link">Already registered? <a href="{{ url_for('teacher_login') }}">Login here</a></p>
+      <p class="auth-link"><a href="{{ url_for('index') }}">← Back to Home</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

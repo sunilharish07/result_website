@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Student Result Portal — Home{% endblock %}
+{% block content %}
+<div class="landing">
+  <div class="landing-bg"></div>
+  <div class="landing-content">
+    <div class="landing-badge">Academic Excellence</div>
+    <h1 class="landing-title">Student Result<br/><span>Portal</span></h1>
+    <p class="landing-sub">Secure. Simple. Instant access to academic results.</p>
+    <div class="landing-cards">
+
+      <div class="role-card teacher-card">
+        <div class="role-icon">🎓</div>
+        <h2>Teacher</h2>
+        <p>Manage students, upload marks, view statistics</p>
+        <div class="role-btns">
+          <a href="{{ url_for('teacher_login') }}" class="btn btn-primary">Login</a>
+          <a href="{{ url_for('teacher_register') }}" class="btn btn-outline">Register</a>
+        </div>
+      </div>
+
+      <div class="role-card student-card">
+        <div class="role-icon">📚</div>
+        <h2>Student</h2>
+        <p>View your grades and result report instantly</p>
+        <div class="role-btns">
+          <a href="{{ url_for('student_login') }}" class="btn btn-primary">Login</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
