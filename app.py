@@ -3,20 +3,15 @@ from config import Config
 from models import db, Teacher, Student, Result, SUBJECTS
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
-import os
+from flask_cors import CORS
 
-# Initialize Flask app
+
+# Initialize Flask app and database
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
+CORS(app)
 
-# ---- your routes here ----
-
-
-# ✅ ALWAYS keep this at bottom
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
 # ─── Decorators ───────────────────────────────────────────────────
 # logged-in teachers or students. If a user tries to access a protected route without the appropriate session variable, they are redirected to the login page with an error message.
 def teacher_required(f):
